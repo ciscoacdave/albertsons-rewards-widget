@@ -6,12 +6,14 @@ template.innerHTML = `
       display: block;
       font-family: 'CiscoSans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 14px;
-      --primary: #e31837;
-      --primary-dark: #b8132c;
-      --success: #6fbe47;
-      --warning: #f5a623;
+      --primary: #00529F;
+      --primary-light: #009FE0;
+      --primary-dark: #003d75;
+      --success: #4CAF50;
+      --warning: #FF9800;
+      --error: #d32f2f;
       --bg: #ffffff;
-      --bg-secondary: #f8f9fa;
+      --bg-secondary: #f5f7fa;
       --text: #1a1a1a;
       --text-secondary: #666;
       --border: #e0e0e0;
@@ -103,7 +105,7 @@ template.innerHTML = `
       color: var(--primary);
       border: 1px solid var(--primary);
     }
-    .btn-secondary:hover { background: rgba(227,24,55,0.1); }
+    .btn-secondary:hover { background: rgba(0,82,159,0.1); }
     .btn-sm { padding: 6px 12px; font-size: 12px; }
 
     /* Loading & States */
@@ -155,7 +157,7 @@ template.innerHTML = `
 
     /* Points Card */
     .points-card {
-      background: linear-gradient(135deg, var(--primary) 0%, #c41230 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       color: white;
       padding: 20px;
       border-radius: 8px;
@@ -282,7 +284,7 @@ template.innerHTML = `
     }
     .quick-action:hover {
       border-color: var(--primary);
-      background: rgba(227,24,55,0.05);
+      background: rgba(0,82,159,0.05);
     }
     .quick-action-icon { font-size: 20px; margin-bottom: 4px; }
     .quick-action-label { font-size: 11px; }
