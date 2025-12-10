@@ -1,4 +1,3 @@
-// Albertsons for U™ Rewards Management Widget for Webex Contact Center
 const template = document.createElement('template');
 template.innerHTML = `
   <style>
@@ -225,37 +224,154 @@ template.innerHTML = `
     .tab-content { display: none; padding: 16px; }
     .tab-content.active { display: block; }
 
+    /* Offers Section */
+    .offer-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .offer-section { margin-bottom: 20px; }
+    .offer-section:last-child { margin-bottom: 0; }
+
     /* Rewards List */
-    .rewards-list { max-height: 200px; overflow-y: auto; }
+    .rewards-list { max-height: 280px; overflow-y: auto; }
     .reward-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .reward-item:last-child { border-bottom: none; }
-    .reward-name { font-weight: 500; }
-    .reward-meta { font-size: 12px; color: var(--text-secondary); }
-    .reward-points {
+      padding: 12px;
+      margin-bottom: 8px;
       background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .reward-item:last-child { margin-bottom: 0; }
+    .reward-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .reward-icon.grocery { background: rgba(0,82,159,0.1); }
+    .reward-icon.gas { background: rgba(255,152,0,0.1); }
+    .reward-icon.freeitem { background: rgba(76,175,80,0.1); }
+    .reward-info { flex: 1; }
+    .reward-name { font-weight: 600; margin-bottom: 2px; }
+    .reward-meta { font-size: 12px; color: var(--text-secondary); }
+    .reward-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .reward-points {
+      background: var(--primary);
+      color: white;
       padding: 4px 10px;
       border-radius: 12px;
       font-size: 12px;
       font-weight: 600;
     }
+    .reward-btn {
+      padding: 6px 12px;
+      font-size: 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 500;
+    }
+    .reward-btn:hover { background: var(--primary-dark); }
+    .reward-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    /* Clipped Offers */
+    .clipped-offer {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+    }
+    .clipped-offer:last-child { margin-bottom: 0; }
+    .clipped-check {
+      width: 20px;
+      height: 20px;
+      background: var(--success);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .clipped-info { flex: 1; }
+    .clipped-name { font-weight: 500; font-size: 13px; }
+    .clipped-brand { font-size: 11px; color: var(--text-secondary); }
+    .clipped-expires {
+      font-size: 11px;
+      color: var(--warning);
+      background: rgba(255,152,0,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
 
     /* Transaction List */
+    .transaction-list { max-height: 280px; overflow-y: auto; }
     .transaction-item {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
+      padding: 12px;
+      margin-bottom: 8px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--border);
     }
-    .transaction-item:last-child { border-bottom: none; }
+    .transaction-item:last-child { margin-bottom: 0; }
+    .transaction-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0,82,159,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .transaction-info { flex: 1; }
+    .transaction-store { font-weight: 600; margin-bottom: 2px; }
     .transaction-date { font-size: 12px; color: var(--text-secondary); }
-    .transaction-amount { font-weight: 600; }
-    .transaction-points { font-size: 12px; color: var(--success); }
+    .transaction-details { text-align: right; }
+    .transaction-amount { font-weight: 600; font-size: 15px; }
+    .transaction-points { 
+      font-size: 12px; 
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    .transaction-items { font-size: 11px; color: var(--text-secondary); }
 
     /* Actions */
     .actions {
@@ -271,13 +387,14 @@ template.innerHTML = `
     .quick-actions {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
     .quick-action {
       background: var(--bg-secondary);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 12px 8px;
+      border-radius: 8px;
+      padding: 16px 8px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -285,9 +402,89 @@ template.innerHTML = `
     .quick-action:hover {
       border-color: var(--primary);
       background: rgba(0,82,159,0.05);
+      transform: translateY(-2px);
     }
-    .quick-action-icon { font-size: 20px; margin-bottom: 4px; }
-    .quick-action-label { font-size: 11px; }
+    .quick-action-icon { 
+      font-size: 24px; 
+      margin-bottom: 8px;
+      display: block;
+    }
+    .quick-action-label { 
+      font-size: 11px; 
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* Action History */
+    .action-history { margin-top: 16px; }
+    .action-history-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .action-log {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 120px;
+      overflow-y: auto;
+      font-size: 12px;
+      border: 1px solid var(--border);
+    }
+    .action-log-item {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+    .action-log-item:last-child { border-bottom: none; }
+    .action-log-type { font-weight: 500; }
+    .action-log-time { color: var(--text-secondary); }
+
+    /* Toggle Switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+    }
+    .toggle-label { font-weight: 500; }
+    .toggle-desc { font-size: 11px; color: var(--text-secondary); }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #ccc;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--primary); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
   </style>
   
   <div class="container">
@@ -441,14 +638,24 @@ class AlbertsonsRewardsWidget extends HTMLElement {
         gasRewards: { centsOff: 30, gallonsRemaining: 25 }
       },
       recentTransactions: [
-        { date: '2025-12-08', store: 'Albertsons #1234', amount: 87.42, pointsEarned: 87 },
-        { date: '2025-12-05', store: 'Albertsons #1234', amount: 45.18, pointsEarned: 45 },
-        { date: '2025-12-01', store: 'Albertsons #5678', amount: 123.67, pointsEarned: 124 }
+        { date: '2025-12-08', store: 'Albertsons #1234', amount: 87.42, pointsEarned: 87, items: 12 },
+        { date: '2025-12-05', store: 'Albertsons #1234', amount: 45.18, pointsEarned: 45, items: 6 },
+        { date: '2025-12-01', store: 'Albertsons #5678', amount: 123.67, pointsEarned: 124, items: 18 },
+        { date: '2025-11-28', store: 'Albertsons #1234', amount: 67.89, pointsEarned: 68, items: 9 },
+        { date: '2025-11-24', store: 'Albertsons #5678', amount: 234.56, pointsEarned: 235, items: 32 }
+      ],
+      clippedOffers: [
+        { id: 'off1', name: '$2 off Cheerios', brand: 'General Mills', expires: '2025-12-15', clipped: true },
+        { id: 'off2', name: 'BOGO Lucerne Milk', brand: 'Lucerne', expires: '2025-12-20', clipped: true },
+        { id: 'off3', name: '$5 off $25 Deli Purchase', brand: 'Store', expires: '2025-12-31', clipped: true }
       ],
       availableOffers: [
-        { name: '$4 off Purchase', points: 300, type: 'grocery' },
-        { name: '$15 off Purchase', points: 1000, type: 'grocery' },
-        { name: '20¢ off/gallon', points: 200, type: 'gas' }
+        { id: 'rwd1', name: '$4 off Purchase', points: 300, type: 'grocery', description: 'Any grocery purchase' },
+        { id: 'rwd2', name: '$8 off Purchase', points: 600, type: 'grocery', description: 'Any grocery purchase' },
+        { id: 'rwd3', name: '$15 off Purchase', points: 1000, type: 'grocery', description: 'Any grocery purchase' },
+        { id: 'rwd4', name: '10¢ off/gallon', points: 100, type: 'gas', description: 'Up to 25 gallons' },
+        { id: 'rwd5', name: '20¢ off/gallon', points: 200, type: 'gas', description: 'Up to 25 gallons' },
+        { id: 'rwd6', name: 'Free O Organics Item', points: 400, type: 'freeitem', description: 'Select items up to $6' }
       ],
       preferences: {
         autoCashOff: false,
@@ -562,30 +769,63 @@ class AlbertsonsRewardsWidget extends HTMLElement {
       </div>
       
       <div class="tab-content active" data-tab="offers">
-        <div class="rewards-list">
-          ${c.availableOffers.map(offer => `
-            <div class="reward-item">
-              <div>
-                <div class="reward-name">${offer.name}</div>
-                <div class="reward-meta">${offer.type === 'gas' ? '⛽ Gas Reward' : '🛒 Grocery Reward'}</div>
+        <div class="offer-section">
+          <div class="offer-section-title">🎁 Points Rewards (${c.points.current} pts available)</div>
+          <div class="rewards-list">
+            ${c.availableOffers.map(offer => `
+              <div class="reward-item">
+                <div class="reward-icon ${offer.type}">
+                  ${offer.type === 'gas' ? '⛽' : offer.type === 'freeitem' ? '🎁' : '🛒'}
+                </div>
+                <div class="reward-info">
+                  <div class="reward-name">${offer.name}</div>
+                  <div class="reward-meta">${offer.description}</div>
+                </div>
+                <div class="reward-action">
+                  <span class="reward-points">${offer.points} pts</span>
+                  <button class="reward-btn ${c.points.current >= offer.points ? '' : 'secondary'}" 
+                          data-reward-id="${offer.id}" 
+                          ${c.points.current < offer.points ? 'disabled' : ''}>
+                    ${c.points.current >= offer.points ? 'Redeem' : 'Need ' + (offer.points - c.points.current)}
+                  </button>
+                </div>
               </div>
-              <span class="reward-points">${offer.points} pts</span>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div class="offer-section">
+          <div class="offer-section-title">✂️ Clipped Digital Coupons (${c.clippedOffers.length})</div>
+          ${c.clippedOffers.map(offer => `
+            <div class="clipped-offer">
+              <div class="clipped-check">✓</div>
+              <div class="clipped-info">
+                <div class="clipped-name">${offer.name}</div>
+                <div class="clipped-brand">${offer.brand}</div>
+              </div>
+              <div class="clipped-expires">Exp ${new Date(offer.expires).toLocaleDateString()}</div>
             </div>
           `).join('')}
         </div>
       </div>
       
       <div class="tab-content" data-tab="transactions">
-        <div class="rewards-list">
+        <div class="offer-section-title">📋 Recent Purchases</div>
+        <div class="transaction-list">
           ${c.recentTransactions.map(t => `
             <div class="transaction-item">
-              <div>
-                <div>${t.store}</div>
-                <div class="transaction-date">${new Date(t.date).toLocaleDateString()}</div>
+              <div class="transaction-icon">🧾</div>
+              <div class="transaction-info">
+                <div class="transaction-store">${t.store}</div>
+                <div class="transaction-date">${new Date(t.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                <div class="transaction-items">${t.items} items</div>
               </div>
-              <div style="text-align:right">
-                <div class="transaction-amount">$${t.amount.toFixed(2)}</div>
-                <div class="transaction-points">+${t.pointsEarned} pts</div>
+              <div class="transaction-details">
+                <div class="transaction-amount">${t.amount.toFixed(2)}</div>
+                <div class="transaction-points">
+                  <span>+${t.pointsEarned}</span>
+                  <span>pts</span>
+                </div>
               </div>
             </div>
           `).join('')}
@@ -593,30 +833,63 @@ class AlbertsonsRewardsWidget extends HTMLElement {
       </div>
       
       <div class="tab-content" data-tab="actions">
+        <div class="offer-section-title">⚡ Quick Actions</div>
         <div class="quick-actions">
           <div class="quick-action" data-action="add-points">
-            <div class="quick-action-icon">➕</div>
-            <div class="quick-action-label">Add Points</div>
+            <span class="quick-action-icon">➕</span>
+            <span class="quick-action-label">Add Points</span>
           </div>
-          <div class="quick-action" data-action="redeem">
-            <div class="quick-action-icon">🎁</div>
-            <div class="quick-action-label">Redeem</div>
+          <div class="quick-action" data-action="adjust-points">
+            <span class="quick-action-icon">✏️</span>
+            <span class="quick-action-label">Adjust Points</span>
           </div>
-          <div class="quick-action" data-action="toggle-cashoff">
-            <div class="quick-action-icon">💵</div>
-            <div class="quick-action-label">Auto Cash Off</div>
-          </div>
-          <div class="quick-action" data-action="update-profile">
-            <div class="quick-action-icon">✏️</div>
-            <div class="quick-action-label">Edit Profile</div>
+          <div class="quick-action" data-action="manual-redeem">
+            <span class="quick-action-icon">🎁</span>
+            <span class="quick-action-label">Manual Redeem</span>
           </div>
           <div class="quick-action" data-action="link-accounts">
-            <div class="quick-action-icon">🔗</div>
-            <div class="quick-action-label">Link Accounts</div>
+            <span class="quick-action-icon">🔗</span>
+            <span class="quick-action-label">Link Accounts</span>
+          </div>
+          <div class="quick-action" data-action="update-profile">
+            <span class="quick-action-icon">👤</span>
+            <span class="quick-action-label">Edit Profile</span>
           </div>
           <div class="quick-action" data-action="send-offers">
-            <div class="quick-action-icon">📧</div>
-            <div class="quick-action-label">Send Offers</div>
+            <span class="quick-action-icon">📧</span>
+            <span class="quick-action-label">Email Offers</span>
+          </div>
+        </div>
+        
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Auto Cash Off</div>
+            <div class="toggle-desc">Convert 100 pts to $1 at checkout</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="autoCashOffToggle" ${c.preferences.autoCashOff ? 'checked' : ''}>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">SMS Notifications</div>
+            <div class="toggle-desc">Receive deals via text message</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="smsToggle" ${c.preferences.smsOptIn ? 'checked' : ''}>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        
+        <div class="action-history">
+          <div class="action-history-title">📝 Session Activity</div>
+          <div class="action-log" id="actionLog">
+            <div class="action-log-item">
+              <span class="action-log-type">Customer loaded</span>
+              <span class="action-log-time">${new Date().toLocaleTimeString()}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -644,6 +917,7 @@ class AlbertsonsRewardsWidget extends HTMLElement {
     // Quick actions
     this.shadowRoot.querySelectorAll('.quick-action').forEach(action => {
       action.addEventListener('click', () => {
+        this._logAction(action.dataset.action);
         this.dispatchEvent(new CustomEvent('widget-action', {
           bubbles: true,
           composed: true,
@@ -652,22 +926,74 @@ class AlbertsonsRewardsWidget extends HTMLElement {
       });
     });
     
+    // Reward redemption buttons
+    this.shadowRoot.querySelectorAll('.reward-btn:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rewardId = btn.dataset.rewardId;
+        const reward = this._customer.availableOffers.find(o => o.id === rewardId);
+        if (reward) {
+          this._logAction(`Redeem: ${reward.name}`);
+          this.dispatchEvent(new CustomEvent('redeem-reward', {
+            bubbles: true,
+            composed: true,
+            detail: { reward, customer: this._customer }
+          }));
+        }
+      });
+    });
+    
+    // Toggle switches
+    this.shadowRoot.getElementById('autoCashOffToggle')?.addEventListener('change', (e) => {
+      this._customer.preferences.autoCashOff = e.target.checked;
+      this._logAction(`Auto Cash Off: ${e.target.checked ? 'ON' : 'OFF'}`);
+      this.dispatchEvent(new CustomEvent('preference-changed', {
+        bubbles: true,
+        composed: true,
+        detail: { preference: 'autoCashOff', value: e.target.checked, customer: this._customer }
+      }));
+    });
+    
+    this.shadowRoot.getElementById('smsToggle')?.addEventListener('change', (e) => {
+      this._customer.preferences.smsOptIn = e.target.checked;
+      this._logAction(`SMS Notifications: ${e.target.checked ? 'ON' : 'OFF'}`);
+      this.dispatchEvent(new CustomEvent('preference-changed', {
+        bubbles: true,
+        composed: true,
+        detail: { preference: 'smsOptIn', value: e.target.checked, customer: this._customer }
+      }));
+    });
+    
     // Copy info
     this.shadowRoot.getElementById('copyInfoBtn')?.addEventListener('click', () => {
       const c = this._customer;
       const info = `Customer: ${c.firstName} ${c.lastName}\nID: ${c.id}\nPhone: ${c.phone}\nPoints: ${c.points.current}\nTier: ${c.tier}`;
       navigator.clipboard.writeText(info);
+      this._logAction('Copied customer info');
       this.dispatchEvent(new CustomEvent('info-copied', { bubbles: true, composed: true }));
     });
     
     // Open portal
     this.shadowRoot.getElementById('openPortalBtn')?.addEventListener('click', () => {
+      this._logAction('Opened portal');
       this.dispatchEvent(new CustomEvent('open-portal', {
         bubbles: true,
         composed: true,
         detail: { url: 'https://www.albertsons.com/customer-account/rewards', customer: this._customer }
       }));
     });
+  }
+  
+  _logAction(action) {
+    const log = this.shadowRoot.getElementById('actionLog');
+    if (log) {
+      const item = document.createElement('div');
+      item.className = 'action-log-item';
+      item.innerHTML = `
+        <span class="action-log-type">${action}</span>
+        <span class="action-log-time">${new Date().toLocaleTimeString()}</span>
+      `;
+      log.insertBefore(item, log.firstChild);
+    }
   }
 }
 
