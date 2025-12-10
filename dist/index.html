@@ -1,0 +1,182 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Albertsons Rewards Widget - Dev Testbed</title><style>* { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+    .dev-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .dev-container { grid-template-columns: 1fr; }
+    }
+    h1 { font-size: 20px; color: #333; margin: 0 0 20px; }
+    .widget-frame {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .controls-panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .control-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .control-section:last-child { border-bottom: none; margin-bottom: 0; }
+    .control-section h3 {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    label span { display: block; margin-bottom: 4px; color: #555; }
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    input:focus { outline: none; border-color: #e31837; }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #e31837; color: white; }
+    .btn-primary:hover { background: #c41230; }
+    .btn-secondary { background: #f0f2f5; color: #333; }
+    .btn-secondary:hover { background: #e0e2e5; }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toggle {
+      position: relative;
+      width: 48px;
+      height: 26px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #ccc;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle input:checked + .toggle-slider { background: #e31837; }
+    .toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
+    .event-log {
+      background: #1a1a1a;
+      color: #0f0;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+    .event-log .timestamp { color: #888; }
+    .event-log .event-type { color: #f5a623; }
+    .sample-anis { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .sample-ani {
+      background: #f0f2f5;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .sample-ani:hover { background: #e0e2e5; }</style><script defer="defer" src="albertsons-rewards-widget.js"></script></head><body><div class="dev-container"><div class="widget-frame"><albertsons-rewards-widget id="widget"></albertsons-rewards-widget></div><div class="controls-panel"><h1>🛠️ Widget Development Controls</h1><div class="control-section"><h3>Simulate Incoming Call (ANI)</h3><label><span>Phone Number</span> <input type="tel" id="aniInput" placeholder="(555) 123-4567" value="(312) 555-1234"></label><div class="btn-row"><button class="btn-primary" id="sendAniBtn">Send ANI to Widget</button></div><div class="sample-anis"><span style="font-size:12px;color:#666;">Try:</span> <span class="sample-ani" data-ani="3125551234">(312) 555-1234</span> <span class="sample-ani" data-ani="8185559876">(818) 555-9876</span> <span class="sample-ani" data-ani="2125550000">(212) 555-0000</span></div></div><div class="control-section"><h3>Display Settings</h3><div class="toggle-row"><span>Dark Mode</span> <label class="toggle"><input type="checkbox" id="darkModeToggle"> <span class="toggle-slider"></span></label></div></div><div class="control-section"><h3>Widget Actions</h3><div class="btn-row"><button class="btn-secondary" id="getDataBtn">Get Customer Data</button> <button class="btn-secondary" id="resetBtn">Reset Widget</button></div></div><div class="control-section"><h3>Event Log</h3><div class="event-log" id="eventLog"><div><span class="timestamp">[Ready]</span> Widget testbed initialized. Send an ANI to begin.</div></div></div></div></div><script type="module">import './src/albertsons-rewards-widget.js';
+    
+    const widget = document.getElementById('widget');
+    const log = document.getElementById('eventLog');
+    
+    function logEvent(type, data) {
+      const time = new Date().toLocaleTimeString();
+      const dataStr = data ? ` → ${JSON.stringify(data).slice(0, 100)}${JSON.stringify(data).length > 100 ? '...' : ''}` : '';
+      log.innerHTML = `<div><span class="timestamp">[${time}]</span> <span class="event-type">${type}</span>${dataStr}</div>` + log.innerHTML;
+    }
+    
+    // Widget events
+    widget.addEventListener('widget-ready', () => logEvent('widget-ready'));
+    widget.addEventListener('customer-loaded', (e) => logEvent('customer-loaded', { name: `${e.detail.customer.firstName} ${e.detail.customer.lastName}`, points: e.detail.customer.points.current }));
+    widget.addEventListener('widget-action', (e) => logEvent('widget-action', e.detail));
+    widget.addEventListener('info-copied', () => logEvent('info-copied', 'Customer info copied to clipboard'));
+    widget.addEventListener('open-portal', (e) => logEvent('open-portal', { url: e.detail.url }));
+    
+    // Send ANI
+    document.getElementById('sendAniBtn').addEventListener('click', () => {
+      const ani = document.getElementById('aniInput').value.replace(/\D/g, '');
+      if (ani.length === 10) {
+        widget.setANI(ani);
+        logEvent('ani-sent', { ani });
+      } else {
+        logEvent('error', 'Invalid ANI - must be 10 digits');
+      }
+    });
+    
+    // Sample ANIs
+    document.querySelectorAll('.sample-ani').forEach(el => {
+      el.addEventListener('click', () => {
+        const ani = el.dataset.ani;
+        document.getElementById('aniInput').value = `(${ani.slice(0,3)}) ${ani.slice(3,6)}-${ani.slice(6)}`;
+        widget.setANI(ani);
+        logEvent('ani-sent', { ani });
+      });
+    });
+    
+    // Dark mode toggle
+    document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+      widget.setAttribute('dark-mode', e.target.checked);
+      logEvent('dark-mode', { enabled: e.target.checked });
+    });
+    
+    // Get customer data
+    document.getElementById('getDataBtn').addEventListener('click', () => {
+      const data = widget.getCustomerData();
+      logEvent('get-customer-data', data ? { id: data.id, points: data.points.current } : 'No customer loaded');
+      if (data) console.log('Full customer data:', data);
+    });
+    
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      widget._resetView();
+      logEvent('reset', 'Widget reset');
+    });</script></body></html>
