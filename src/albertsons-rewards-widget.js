@@ -158,27 +158,32 @@ template.innerHTML = `
     .points-card {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       color: white;
-      padding: 20px;
+      padding: 12px 16px;
       border-radius: 8px;
       margin-bottom: 16px;
-    }
-    .points-label { font-size: 12px; opacity: 0.9; }
-    .points-value {
-      font-size: 36px;
-      font-weight: 700;
-      margin: 4px 0;
-    }
-    .points-expiry { font-size: 11px; opacity: 0.8; }
-    .points-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .points-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .points-label { font-size: 11px; opacity: 0.9; }
+    .points-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .points-expiry { font-size: 10px; opacity: 0.8; }
+    .points-stats {
+      display: flex;
+      gap: 16px;
     }
     .points-stat { text-align: center; }
-    .points-stat-value { font-size: 18px; font-weight: 600; }
-    .points-stat-label { font-size: 10px; opacity: 0.8; }
+    .points-stat-value { font-size: 14px; font-weight: 600; }
+    .points-stat-label { font-size: 9px; opacity: 0.8; }
 
     /* Info Grid */
     .info-grid {
@@ -723,21 +728,21 @@ class AlbertsonsRewardsWidget extends HTMLElement {
         </div>
         
         <div class="points-card">
-          <div class="points-label">Available Points</div>
-          <div class="points-value">${c.points.current.toLocaleString()}</div>
-          <div class="points-expiry">${c.points.expiring} points expiring ${c.points.expiryDate}</div>
-          <div class="points-row">
-            <div class="points-stat">
-              <div class="points-stat-value">${c.points.lifetimeEarned.toLocaleString()}</div>
-              <div class="points-stat-label">Lifetime Earned</div>
+          <div class="points-main">
+            <div>
+              <div class="points-label">Available Points</div>
+              <div class="points-value">${c.points.current.toLocaleString()}</div>
+              <div class="points-expiry">${c.points.expiring} expiring ${c.points.expiryDate}</div>
             </div>
+          </div>
+          <div class="points-stats">
             <div class="points-stat">
-              <div class="points-stat-value">${c.points.lifetimeRedeemed.toLocaleString()}</div>
-              <div class="points-stat-label">Redeemed</div>
+              <div class="points-stat-value">${(c.points.lifetimeEarned/1000).toFixed(1)}k</div>
+              <div class="points-stat-label">Earned</div>
             </div>
             <div class="points-stat">
               <div class="points-stat-value">${c.rewards.gasRewards.centsOff}¢</div>
-              <div class="points-stat-label">Gas Discount</div>
+              <div class="points-stat-label">Gas</div>
             </div>
           </div>
         </div>
