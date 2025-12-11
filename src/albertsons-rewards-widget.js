@@ -5,9 +5,9 @@ template.innerHTML = `
       display: block;
       font-family: 'CiscoSans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 14px;
-      --primary: #00529F;
-      --primary-light: #009FE0;
-      --primary-dark: #003d75;
+      --primary: #1a8917;
+      --primary-light: #2db52a;
+      --primary-dark: #146611;
       --success: #4CAF50;
       --warning: #FF9800;
       --error: #d32f2f;
@@ -35,13 +35,20 @@ template.innerHTML = `
     .header {
       background: var(--primary);
       color: white;
-      padding: 10px 16px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
+    .header-title {
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .header-logo {
-      height: 28px;
+      height: 24px;
       width: auto;
     }
     .search-section {
@@ -89,7 +96,7 @@ template.innerHTML = `
       color: var(--primary);
       border: 1px solid var(--primary);
     }
-    .btn-secondary:hover { background: rgba(0,82,159,0.1); }
+    .btn-secondary:hover { background: rgba(26,137,23,0.1); }
     .btn-sm { padding: 6px 12px; font-size: 12px; }
 
     /* Loading & States */
@@ -391,7 +398,7 @@ template.innerHTML = `
     }
     .quick-action:hover {
       border-color: var(--primary);
-      background: rgba(0,82,159,0.05);
+      background: rgba(26,137,23,0.05);
       transform: translateY(-2px);
     }
     .quick-action-icon { 
@@ -479,7 +486,9 @@ template.innerHTML = `
   
   <div class="container">
     <div class="header">
-      <img src="https://storage.googleapis.com/gcp-wxcctoolkit-nprd-41927.appspot.com/assets/DwOVM0HYZPOjxemCLo1foEsxRmm1/for-u-logo.png" alt="Albertsons for U" class="header-logo">
+      <div class="header-title">
+        <img src="https://storage.googleapis.com/gcp-wxcctoolkit-nprd-41927.appspot.com/assets/DwOVM0HYZPOjxemCLo1foEsxRmm1/ALB-forU-862w.png" alt="Albertsons for U" class="header-logo">
+      </div>
       <button class="btn btn-sm" id="refreshBtn" style="background:rgba(255,255,255,0.2);color:white;border:none;">↻</button>
     </div>
     
