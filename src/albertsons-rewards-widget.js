@@ -35,29 +35,14 @@ template.innerHTML = `
     .header {
       background: var(--primary);
       color: white;
-      padding: 12px 16px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .header-title {
-      font-weight: 600;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
     .header-logo {
-      width: 24px;
-      height: 24px;
-      background: white;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: var(--primary);
-      font-size: 12px;
+      height: 28px;
+      width: auto;
     }
     .search-section {
       padding: 16px;
@@ -494,10 +479,7 @@ template.innerHTML = `
   
   <div class="container">
     <div class="header">
-      <div class="header-title">
-        <div class="header-logo">A</div>
-        <span>for U™ Rewards</span>
-      </div>
+      <img src="https://storage.googleapis.com/gcp-wxcctoolkit-nprd-41927.appspot.com/assets/DwOVM0HYZPOjxemCLo1foEsxRmm1/for-u-logo.png" alt="Albertsons for U" class="header-logo">
       <button class="btn btn-sm" id="refreshBtn" style="background:rgba(255,255,255,0.2);color:white;border:none;">↻</button>
     </div>
     
